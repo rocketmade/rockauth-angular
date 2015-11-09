@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="rockauth.google">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>Rockauth Google</title>
+    <!-- Google dependency needs to be moved to Socialmade for production -->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="643719502428-nnsjfjth8rv7doqvpjofjvlmuujur1vh.apps.googleusercontent.com/">
 </head>
 <body>
-
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
 </body>
 </html>
