@@ -2,7 +2,7 @@
 
   angular
     .module('rockauth.google')
-    .service('googleService', googleService);
+    .service('raGoogleService', googleService);
 
   function googleService() {
 
