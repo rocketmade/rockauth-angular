@@ -1,0 +1,19 @@
+var gulp    = require('gulp'),
+    connect = require('gulp-connect'),
+    concat = require('gulp-concat');
+
+gulp.task('connect-dev', function() {
+    connect.server({
+        root: __dirname,
+        port: 8000,
+        fallback: 'views/index.html'
+    });
+});
+
+gulp.task('build', function(){
+  return gulp.src(['./src/**/*.module.js', './src/**/*.js', '!./src/**/*.spec.js'])
+              .pipe(concat('rockauth-angular.js'))
+              .pipe(gulp.dest('./'));
+});
+
+gulp.task('default', ['connect-dev']);
