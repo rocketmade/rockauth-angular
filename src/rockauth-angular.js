@@ -5,6 +5,7 @@
     .module('rockauth', [
       'rockauth.core',
       'rockauth.registration',
+      'rockauth.facebook',
       'ngMaterial', 
       'ngMessages'
     ]);
