@@ -1,24 +1,23 @@
 <div ng-app="rockauth.login">
-	<form name="userForm" ng-hide="vm.isAuthed()" novalidate ng-submit="loginform.$valid">
-
-	    <div ng-messages="userForm.email.$error" ng-show="vm.validationShow">
-	        <div ng-message="required">
-	            Please enter your email address... 
-	        </div>
-	        <div ng-message="email">
-	            Please enter a valid email address...
-	        </div>
-	    </div>
-
-	    <div ng-messages="userForm.password.$error" ng-show="vm.validationShow">
-	        <div ng-message="required">Please enter your password...</div>
-	        <div ng-message="minlength">Password needs to be at least 8 characters</div>
-	        <div ng-message="maxlength">Password needs to be shorter than 30 characters</div>
-	    </div>
-	    <input type="email" ng-model="vm.email" placeholder="email" name="email" type="email" required> {{vm.UsernameValidation}}{{vm.emailValidation}}<br>
-	    <input type="password" ng-model="vm.password" placeholder="password" name="password" ng-minlength="8" ng-maxlength="30" required> {{vm.passwordValidation}}<br>
-	    <br>
-	    <button ng-click="vm.changeValidation(); userForm.$valid && vm.login(); vm.emptyErrors(); vm.clearInputs()" ng-hide="vm.isAuthed()">Login</button> 
+	<form layout="column" ng-cloak class="md-inline-form" name="userForm" ng-hide="vm.isAuthed()" novalidate ng-submit="loginform.$valid">
+	    <md-input-container>
+	    	<label>Email</label>
+	    	<input type="email" ng-model="vm.email" name="email" type="email" required> {{vm.UsernameValidation}}{{vm.emailValidation}}<br>
+	    	<div ng-messages="userForm.email.$error">
+          		<div ng-message="required">This is required.</div>
+          		<div ng-message="email">Enter a valid email.</div>
+        	</div>
+	    </md-input-container>
+	    <md-input-container>
+	    	<label>Password</label>
+	    	<input type="password" ng-model="vm.password" name="password" ng-minlength="8" ng-maxlength="30" required> {{vm.passwordValidation}}<br>
+	    	<div ng-messages="userForm.password.$error">
+          		<div ng-message="required">This is required.</div>
+	        	<div ng-message="minlength">Your password must be between 8 and 30 characters</div>
+	        	<div ng-message="maxlength">Your password must be between 8 and 30 characters</div>
+        	</div>
+	    </md-input-container>
+	    <md-button class="md-raised md-primary" ng-click="vm.changeValidation(); userForm.$valid && vm.login(); vm.emptyErrors(); vm.clearInputs()" ng-hide="vm.isAuthed()">Login</md-button> 
 	</form>
-	<button ng-click="vm.logout()" ng-show="vm.isAuthed()">Logout</button>
+	<md-button ng-click="vm.logout()" class="md-raised md-primary" ng-show="vm.isAuthed()">Logout</md-button>
 </div>
