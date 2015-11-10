@@ -65,6 +65,7 @@
     }
 
     function logout() {
+      // TODO: add logout request for rockauth
       $window.localStorage.removeItem(tokenStorageKey);
     }
   }
