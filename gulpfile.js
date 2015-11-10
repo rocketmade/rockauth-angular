@@ -17,7 +17,7 @@ gulp.task('connect-dev', function() {
     });
 });
 
-gulp.task('build', function(){
+gulp.task('build', ['lint'], function(){
   return gulp.src(['./src/**/*.module.js', './src/**/*.js', '!./src/**/*.spec.js'])
               .pipe(concat('rockauth-angular.js'))
               .pipe(gulp.dest('./'));
