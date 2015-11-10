@@ -14,7 +14,7 @@
           failureCallback: '&'
         }
       };
-    })
+    });
 
   LoginController.$inject = ['loginService'];
   /* @ngInject */
@@ -27,39 +27,31 @@
     vm.isAuthed = isAuthed;
     vm.logout = logout;
 
-    function checkAuth() {
-      if (service.isAuthed()) {
-        vm.isAuth = true;
-      } else {
-        vm.isAuth = false;
-      }
-    };
-
     function changeValidation() {
       vm.validationShow = true;
-    };
+    }
 
     function login() {
       service.login(vm.email, vm.password, function() {
         vm.successCallback();
       }, function(response) {
         console.log("Login response:", response.data.error.validation_errors);
-        if (response.data.error.validation_errors.username != null){
+        if (response.data.error.validation_errors.username !== null){
           vm.UsernameValidation = response.data.error.validation_errors.username[0];
         }
-        if (response.data.error.validation_errors.password != null){
+        if (response.data.error.validation_errors.password !== null){
           vm.PasswordValidation = response.data.error.validation_errors.password[0];
         }
-        if (response.data.error.validation_errors.resource_owner != null){
-          vm.UsernameValidation = 'We don\'t have a user with that email...'
+        if (response.data.error.validation_errors.resource_owner !== null){
+          vm.UsernameValidation = 'We don\'t have a user with that email...';
         }
         vm.failureCallback();
       });
-    };
+    }
 
     function logout() {
-      service.logout && service.logout();
-    };
+      service.logout();
+    }
 
     function isAuthed() {
       return service.isAuthed ? service.isAuthed() : false;

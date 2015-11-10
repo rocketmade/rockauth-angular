@@ -1,6 +1,13 @@
 var gulp    = require('gulp'),
     connect = require('gulp-connect'),
-    concat = require('gulp-concat');
+    concat = require('gulp-concat'),
+    jshint = require('gulp-jshint');
+
+gulp.task('lint', function() {
+  return gulp.src(['./src/**/*.module.js', './src/**/*.js', '!./src/**/*.spec.js'])
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'));
+});
 
 gulp.task('connect-dev', function() {
     connect.server({
@@ -10,7 +17,7 @@ gulp.task('connect-dev', function() {
     });
 });
 
-gulp.task('build', function(){
+gulp.task('build', ['lint'], function(){
   return gulp.src(['./src/**/*.module.js', './src/**/*.js', '!./src/**/*.spec.js'])
               .pipe(concat('rockauth-angular.js'))
               .pipe(gulp.dest('./'));

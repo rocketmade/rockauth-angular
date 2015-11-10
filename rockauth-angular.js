@@ -1,9 +1,9 @@
+
 (function () {
   'use strict';
 
   angular.module('rockauth.core', []);
 })();
-
 
 (function(){
   'use strict';
@@ -57,7 +57,7 @@
           failureCallback: '&'
         }
       };
-    })
+    });
 
   LoginController.$inject = ['loginService'];
   /* @ngInject */
@@ -70,39 +70,31 @@
     vm.isAuthed = isAuthed;
     vm.logout = logout;
 
-    function checkAuth() {
-      if (service.isAuthed()) {
-        vm.isAuth = true;
-      } else {
-        vm.isAuth = false;
-      }
-    };
-
     function changeValidation() {
       vm.validationShow = true;
-    };
+    }
 
     function login() {
       service.login(vm.email, vm.password, function() {
         vm.successCallback();
       }, function(response) {
         console.log("Login response:", response.data.error.validation_errors);
-        if (response.data.error.validation_errors.username != null){
+        if (response.data.error.validation_errors.username !== null){
           vm.UsernameValidation = response.data.error.validation_errors.username[0];
         }
-        if (response.data.error.validation_errors.password != null){
+        if (response.data.error.validation_errors.password !== null){
           vm.PasswordValidation = response.data.error.validation_errors.password[0];
         }
-        if (response.data.error.validation_errors.resource_owner != null){
-          vm.UsernameValidation = 'We don\'t have a user with that email...'
+        if (response.data.error.validation_errors.resource_owner !== null){
+          vm.UsernameValidation = 'We don\'t have a user with that email...';
         }
         vm.failureCallback();
       });
-    };
+    }
 
     function logout() {
-      service.logout && service.logout();
-    };
+      service.logout();
+    }
 
     function isAuthed() {
       return service.isAuthed ? service.isAuthed() : false;
@@ -116,6 +108,7 @@
     }
   }
 })();
+
 (function() {
   'use strict';
 
@@ -124,6 +117,7 @@
     .service('loginService', loginService);
 
   function loginService($http, $window, BaseAPI, ClientId, ClientSecret) {
+    /* jshint validthis: true */
     var vm = this;
     vm.login = login;
     vm.parseJwt = parseJwt;
@@ -131,6 +125,7 @@
     vm.getToken = getToken;
     vm.isAuthed = isAuthed;
     vm.logout = logout;
+    var tokenStorageKey = 'rockauth.jwtToken';
 
     function login(email, password, success, failure) {
       return $http.post(BaseAPI + '/authentications.json', {
@@ -144,12 +139,12 @@
       })
       .then(function(res) {
         if (res.config.url.indexOf(BaseAPI) === 0) {
-          if (res.data.authentication != undefined) {
+          if (res.data.authentication !== undefined) {
             vm.saveToken(res.data.authentication.token);
-          } else if (res.data.authentications != undefined && res.data.authentications.length > 0) {
+          } else if (res.data.authentications !== undefined && res.data.authentications.length > 0) {
             vm.saveToken(res.data.authentications[0].token);
           }
-        } 
+        }
         success();
         console.log("Successful Login");
       }, failure);
@@ -160,15 +155,15 @@
       var base64Url = token.split('.')[1];
       var base64 = base64Url.replace('-', '+').replace('_', '/');
       return JSON.parse($window.atob(base64));
-    };
+    }
 
     function saveToken(token){
-      $window.localStorage['rockauthJwtToken'] = token;
-    };
+      $window.localStorage[tokenStorageKey] = token;
+    }
 
     function getToken(){
-      return $window.localStorage['rockauthJwtToken'];
-    };
+      return $window.localStorage[tokenStorageKey];
+    }
 
     function isAuthed() {
       var token = vm.getToken();
@@ -181,10 +176,11 @@
     }
 
     function logout() {
-      $window.localStorage.removeItem('rockauthJwtToken');
+      $window.localStorage.removeItem(tokenStorageKey);
     }
   }
 })();
+
 (function() {
   'use strict';
 
@@ -200,7 +196,7 @@
           successCallback: '&'
         }
       };
-    })
+    });
 
   RegistrationController.$inject = ['registrationService'];
   /* @ngInject */
@@ -213,17 +209,17 @@
 
     function changeValidation() {
       vm.validationShow = true;
-    };
+    }
 
     function register() {
       service.register(vm.email, vm.password, function(user) {
         alert("SUCCESS!");
       }, function(response) {
         console.log(response.data.error.validation_errors.email);
-        if (response.data.error.validation_errors.email != null){
+        if (response.data.error.validation_errors.email !== null){
           vm.emailValidation = response.data.error.validation_errors.email[0];
         }
-        if (response.data.error.validation_errors.password != null){
+        if (response.data.error.validation_errors.password !== null){
           vm.passwordValidation = response.data.error.validation_errors.password[0];
         }
       });
@@ -245,6 +241,7 @@
     .service('registrationService', registrationService);
 
   function registrationService($http, BaseAPI, ClientId, ClientSecret) {
+    /* jshint validthis: true */
     var vm = this;
     vm.register = register;
 
