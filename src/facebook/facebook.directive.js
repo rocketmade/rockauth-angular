@@ -10,14 +10,14 @@
         controllerAs: 'vm',
         templateUrl: 'bower_components/rockauth-angular/src/facebook/facebook.html',
         scope: {
-          successCallback: '&'
+          successCallback: '&',
         }
       };
     })
 
-  FacebookController.$inject = ['facebookService', '$window']
+  FacebookController.$inject = ['facebookService', '$window', '$attrs']
 
-  function FacebookController(service, $window){
+  function FacebookController(service, $window, $attrs){
     var vm = this;
     vm.login = login;
     vm.logout = logout;
@@ -42,10 +42,9 @@
     ref.parentNode.insertBefore(js, ref);
 
   }(document));
-
     $window.fbAsyncInit = function() {
       FB.init({
-        appId: '1011964755522543',
+        appId: $attrs.appId,
         status: true,
         cookie: true,
         xfbml: true,
@@ -53,26 +52,19 @@
       })
     }
 
-    function loginCallback(response) {
-      if (response) {
-        service.login(response.accessToken);
-      } else {
-        FB.login();
-      }
-
+    function successfulLogin(response){
+      vm.authed = true
+      console.log(response.authResponse.accessToken);
+      service.login(response.authResponse.accessToken);
     }
 
     function login(){
       FB.getLoginStatus(function(response) {
         if (response.authResponse) {
-          vm.authed = true;
-          console.log(response.authResponse.accessToken);
-          service.login(response.authResponse.accessToken);
+          successfulLogin(response);
         } else {
           FB.login(function(response){
-            vm.authed = true;
-            console.log(response.authResponse.accessToken);
-            service.login(response.authResponse.accessToken);
+            successfulLogin(response);
           })
         }
       })
