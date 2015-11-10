@@ -13,7 +13,7 @@
           successCallback: '&'
         }
       };
-    })
+    });
 
   RegistrationController.$inject = ['registrationService'];
   /* @ngInject */
@@ -26,17 +26,17 @@
 
     function changeValidation() {
       vm.validationShow = true;
-    };
+    }
 
     function register() {
       service.register(vm.email, vm.password, function(user) {
         alert("SUCCESS!");
       }, function(response) {
         console.log(response.data.error.validation_errors.email);
-        if (response.data.error.validation_errors.email != null){
+        if (response.data.error.validation_errors.email !== null){
           vm.emailValidation = response.data.error.validation_errors.email[0];
         }
-        if (response.data.error.validation_errors.password != null){
+        if (response.data.error.validation_errors.password !== null){
           vm.passwordValidation = response.data.error.validation_errors.password[0];
         }
       });
