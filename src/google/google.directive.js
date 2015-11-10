@@ -16,7 +16,7 @@
     };
   }
 
-  GoogleAuthController.$inject = ['googleService'];
+  GoogleAuthController.$inject = ['raGoogleService'];
 
   function GoogleAuthController(googleService) {
     var vm = this;

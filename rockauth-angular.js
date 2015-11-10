@@ -59,7 +59,7 @@
     };
   }
 
-  GoogleAuthController.$inject = ['googleService'];
+  GoogleAuthController.$inject = ['raGoogleService'];
 
   function GoogleAuthController(googleService) {
     var vm = this;
@@ -90,6 +90,7 @@
       return $http.post(BaseAPI + '/me.json', {
         'user': {
           'authentication': {
+            'auth_type': "assertion",
             'client_id': ClientId,
             'client_secret': ClientSecret
           },

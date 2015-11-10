@@ -3,6 +3,15 @@
 <meta name="google-signin-client_id" content="643719502428-nnsjfjth8rv7doqvpjofjvlmuujur1vh.apps.googleusercontent.com/" -->
 <div ng-app="rockauth.google">
 
-  <div class="g-signin2" data-onsuccess="vm.onSignIn()"></div>
+  <div class="g-signin2" data-onsuccess="onSignIn">
+  </div>
 
+  <script>
+    function onSignIn(googleUser) {
+      var profile = googleUser.getBasicProfile();
+      console.log(profile);
+    }
+  </script>
+
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
 </div>
