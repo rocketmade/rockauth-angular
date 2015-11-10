@@ -39,10 +39,10 @@
         if (response.data.error.validation_errors.password !== null){
           vm.passwordValidation = response.data.error.validation_errors.password[0];
         }
-        if (response.data.error.validation_errors.first_name != null) {
+        if (response.data.error.validation_errors.first_name !== null) {
           vm.firstNameValidation = response.data.error.validation_errors.first_name[0];
         }
-        if (response.data.error.validation_errors.last_name != null) {
+        if (response.data.error.validation_errors.last_name !== null) {
           vm.lastNameValidation = response.data.error.validation_errors.last_name[0];
         }
       });
