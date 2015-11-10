@@ -18,8 +18,15 @@
 
   GoogleAuthController.$inject = ['googleService'];
 
-  function GoogleAuthController() {
+  function GoogleAuthController(googleService) {
     var vm = this;
+
+    vm.onSignIn = onSignIn;
+
+    function onSignIn(googleUser) {
+      googleService.register(googleUser);
+
+    }
   }
 
 }());

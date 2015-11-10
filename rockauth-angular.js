@@ -5,7 +5,15 @@
 })();
 
 
+(function() {
 
+  angular.module('rockauth.google', [
+    'rockauth.core',
+    'ngMaterial',
+    'ngMessages'
+  ]);
+
+}());
 (function(){
   'use strict';
 
@@ -17,6 +25,7 @@
     ]);
 })();
 
+
 (function () {
   'use strict';
 
@@ -24,6 +33,7 @@
     .module('rockauth', [
       'rockauth.core',
       'rockauth.registration',
+      'rockauth.google',
       'ngMaterial', 
       'ngMessages'
     ]);
@@ -31,9 +41,75 @@
 
 
 
+(function() {
 
+  angular
+    .module('rockauth.google')
+    .directive('raGoogle', raGoogle);
 
+  function raGoogle() {
+    return {
+      bindToController: true,
+      controller: GoogleAuthController,
+      controllerAs: 'vm',
+      templateUrl: 'bower_components/rockauth-angular/src/google/google.html',
+      scope: {
+        successCallback: '&'
+      }
+    };
+  }
 
+  GoogleAuthController.$inject = ['googleService'];
+
+  function GoogleAuthController(googleService) {
+    var vm = this;
+
+    vm.onSignIn = onSignIn;
+
+    function onSignIn(googleUser) {
+      googleService.register(googleUser);
+
+    }
+  }
+
+}());
+(function() {
+
+  angular
+    .module('rockauth.google')
+    .service('raGoogleService', googleService);
+
+  function googleService($http, BaseAPI, ClientId, ClientSecret) {
+    var vm = this;
+    vm.register = register;
+    vm.getToken = getToken;
+
+    function register(googleUser) {
+      var token;
+      token = getToken(googleUser);
+      return $http.post(BaseAPI + '/me.json', {
+        'user': {
+          'authentication': {
+            'client_id': ClientId,
+            'client_secret': ClientSecret
+          },
+          'provider_authentication': [{
+            'provider': 'google_plus',
+            'provider_access_token': token
+          }]
+        }
+
+      });
+    }
+
+    function getToken(googleUser) {
+      var googleToken = googleUser.getAuthResponse().id_token;
+      console.log(googleToken);
+      return googleToken;
+    }
+  }
+
+}());
 (function() {
   'use strict';
 
@@ -111,3 +187,6 @@
     }
   }
 })();
+
+
+

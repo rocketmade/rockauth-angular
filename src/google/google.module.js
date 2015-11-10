@@ -1,7 +1,9 @@
 (function() {
 
   angular.module('rockauth.google', [
-    'rockauth.core'
+    'rockauth.core',
+    'ngMaterial',
+    'ngMessages'
   ]);
 
 }());
