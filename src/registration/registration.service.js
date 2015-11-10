@@ -9,9 +9,11 @@
     var vm = this;
     vm.register = register;
 
-    function register(email, password, success, failure) {
+    function register(firstName, lastName, email, password, success, failure) {
       return $http.post(BaseAPI + '/me.json', {
         user: {
+          first_name: firstName,
+          last_name: lastName,
           email: email,
           password: password,
           authentication: {
@@ -19,7 +21,9 @@
             client_secret: ClientSecret
           }
         }
-      }).then(success, failure);
+      }).then(function(response) {
+        success(response.data);
+      }, failure);
     }
   }
 })();

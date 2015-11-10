@@ -65,8 +65,8 @@
     };
 
     function register() {
-      service.register(vm.email, vm.password, function(user) {
-        alert("SUCCESS!");
+      service.register(vm.firstName, vm.lastName, vm.email, vm.password, function(user) {
+        vm.successCallback()(user);
       }, function(response) {
         console.log(response.data.error.validation_errors.email);
         if (response.data.error.validation_errors.email != null){
@@ -75,13 +75,20 @@
         if (response.data.error.validation_errors.password != null){
           vm.passwordValidation = response.data.error.validation_errors.password[0];
         }
+        if (response.data.error.validation_errors.first_name != null) {
+          vm.firstNameValidation = response.data.error.validation_errors.first_name[0];
+        }
+        if (response.data.error.validation_errors.last_name != null) {
+          vm.lastNameValidation = response.data.error.validation_errors.last_name[0];
+        }
       });
     }
 
     function emptyErrors() {
       vm.passwordValidation = null;
-      vm.usernameValidation  = null;
       vm.emailValidation = null;
+      vm.firstNameValidation = null;
+      vm.lastNameValidation = null;
     }
   }
 })();
@@ -97,9 +104,11 @@
     var vm = this;
     vm.register = register;
 
-    function register(email, password, success, failure) {
+    function register(firstName, lastName, email, password, success, failure) {
       return $http.post(BaseAPI + '/me.json', {
         user: {
+          first_name: firstName,
+          last_name: lastName,
           email: email,
           password: password,
           authentication: {
@@ -107,7 +116,9 @@
             client_secret: ClientSecret
           }
         }
-      }).then(success, failure);
+      }).then(function(response) {
+        success(response.data);
+      }, failure);
     }
   }
 })();
