@@ -5,7 +5,9 @@
     .module('rockauth', [
       'rockauth.core',
       'rockauth.registration',
-      'ngMaterial', 
+      'rockauth.google',
+      'rockauth.login',
+      'ngMaterial',
       'ngMessages'
     ]);
 })();
