@@ -1,10 +1,12 @@
 (function() {
+  'use strict';
 
   angular
     .module('rockauth.google')
     .service('raGoogleService', googleService);
 
   function googleService($http, BaseAPI, ClientId, ClientSecret) {
+    /* jshint validthis: true */
     var vm = this;
     vm.register = register;
     vm.getToken = getToken;

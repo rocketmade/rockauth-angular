@@ -6,6 +6,7 @@
       'rockauth.core',
       'rockauth.registration',
       'rockauth.google',
+      'rockauth.twitter',
       'rockauth.login',
       'ngMaterial',
       'ngMessages'
