@@ -31,11 +31,9 @@
         vm.showSignInButton = false;
       }
     }
-
     function signOut() {
       googleService.signOut();
       vm.showSignInButton = true;
     }
   }
-
 }());
