@@ -16,16 +16,25 @@
     };
   }
 
-  GoogleAuthController.$inject = ['raGoogleService'];
+  GoogleAuthController.$inject = ['$window', 'raGoogleService'];
 
-  function GoogleAuthController(googleService) {
+  function GoogleAuthController($window, googleService) {
     var vm = this;
 
-    vm.onSignIn = onSignIn;
+    $window.rockauthGoogleOnSignIn = onSignIn;
+    vm.signOut = signOut;
+    vm.showSignInButton = true;
 
     function onSignIn(googleUser) {
-      googleService.register(googleUser);
+      if (googleUser) {
+        googleService.register(googleUser);
+        vm.showSignInButton = false;
+      }
+    }
 
+    function signOut() {
+      googleService.signOut();
+      vm.showSignInButton = true;
     }
   }
 

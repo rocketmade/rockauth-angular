@@ -14,6 +14,7 @@
   ]);
 
 }());
+
 (function(){
   'use strict';
 
@@ -24,7 +25,6 @@
       'ngMessages'
     ]);
 })();
-
 
 (function () {
   'use strict';
@@ -59,16 +59,25 @@
     };
   }
 
-  GoogleAuthController.$inject = ['raGoogleService'];
+  GoogleAuthController.$inject = ['$window', 'raGoogleService'];
 
-  function GoogleAuthController(googleService) {
+  function GoogleAuthController($window, googleService) {
     var vm = this;
 
-    vm.onSignIn = onSignIn;
+    $window.rockauthGoogleOnSignIn = onSignIn;
+    vm.signOut = signOut;
+    vm.showSignInButton = true;
 
     function onSignIn(googleUser) {
-      googleService.register(googleUser);
+      if (googleUser) {
+        googleService.register(googleUser);
+        vm.showSignInButton = false;
+      }
+    }
 
+    function signOut() {
+      googleService.signOut();
+      vm.showSignInButton = true;
     }
   }
 
@@ -83,23 +92,28 @@
     var vm = this;
     vm.register = register;
     vm.getToken = getToken;
+    vm.signOut = signOut;
 
     function register(googleUser) {
       var token;
       token = getToken(googleUser);
-      return $http.post(BaseAPI + '/me.json', {
-        'user': {
-          'authentication': {
-            'auth_type': "assertion",
-            'client_id': ClientId,
-            'client_secret': ClientSecret
-          },
+      return $http.post(BaseAPI + '/authentications.json', {
+        'authentication': {
+          'auth_type': "assertion",
+          'client_id': ClientId,
+          'client_secret': ClientSecret,
           'provider_authentication': [{
             'provider': 'google_plus',
             'provider_access_token': token
           }]
         }
+      });
+    }
 
+    function signOut() {
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.signOut().then(function() {
+        console.log('User signed out.');
       });
     }
 
@@ -108,9 +122,13 @@
       console.log(googleToken);
       return googleToken;
     }
+
   }
 
 }());
+
+
+
 (function() {
   'use strict';
 
@@ -188,6 +206,3 @@
     }
   }
 })();
-
-
-
