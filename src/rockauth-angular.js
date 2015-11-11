@@ -6,7 +6,8 @@
       'rockauth.core',
       'rockauth.registration',
       'rockauth.google',
-      'ngMaterial', 
+      'rockauth.login',
+      'ngMaterial',
       'ngMessages'
     ]);
 })();
