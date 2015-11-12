@@ -14,7 +14,7 @@
     vm.removeToken = removeToken;
     var tokenStorageKey = 'rockauth.jwtToken';
 
-    function register(googleUser) {
+    function register(googleUser, success, failure) {
       var token;
       token = getToken(googleUser);
       return $http.post(BaseAPI + '/authentications.json', {
@@ -35,7 +35,9 @@
             vm.saveToken(res.data.authentications[0].token);
           }
         }
-      });
+        console.log("Successful Login");
+        success();
+      }, failure);
     }
     function signOut() {
       var auth2 = gapi.auth2.getAuthInstance();

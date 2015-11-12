@@ -12,7 +12,8 @@
       controllerAs: 'vm',
       templateUrl: 'bower_components/rockauth-angular/src/google/google.html',
       scope: {
-        successCallback: '&'
+        successCallback: '&',
+        failureCallback: '&'
       }
     };
   }
@@ -28,7 +29,11 @@
 
     function onSignIn(googleUser) {
       if (googleUser) {
-        googleService.register(googleUser);
+        googleService.register(googleUser, function(){
+          vm.successCallback();
+        }, function() {
+          vm.failureCallback();
+        });
         vm.showSignInButton = false;
       }
     }
