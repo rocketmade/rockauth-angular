@@ -6,7 +6,6 @@
     .service('registrationService', registrationService);
 
   function registrationService($http, BaseAPI, ClientId, ClientSecret) {
-    /* jshint validthis: true */
     var vm = this;
     vm.register = register;
 

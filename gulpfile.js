@@ -1,3 +1,5 @@
+'use strict';
+
 var gulp    = require('gulp'),
     connect = require('gulp-connect'),
     concat = require('gulp-concat'),
@@ -6,7 +8,8 @@ var gulp    = require('gulp'),
 gulp.task('lint', function() {
   return gulp.src(['./src/**/*.module.js', './src/**/*.js', '!./src/**/*.spec.js'])
     .pipe(jshint())
-    .pipe(jshint.reporter('default'));
+    .pipe(jshint.reporter('default'))
+    .pipe(jshint.reporter('fail'));
 });
 
 gulp.task('connect-dev', function() {
