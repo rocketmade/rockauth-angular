@@ -1,4 +1,5 @@
 (function() {
+  'use strict';
 
   angular
     .module('rockauth.google')
@@ -9,6 +10,9 @@
     vm.register = register;
     vm.getToken = getToken;
     vm.signOut = signOut;
+    vm.saveToken = saveToken;
+    vm.removeToken = removeToken;
+    var tokenStorageKey = 'rockauth.jwtToken';
 
     function register(googleUser) {
       var token;
@@ -23,6 +27,14 @@
             'provider_access_token': token
           }]
         }
+      }).then(function(res) {
+        if (res.config.url.indexOf(BaseAPI) === 0) {
+          if (res.data.authentication !== undefined) {
+            vm.saveToken(res.data.authentication.token);
+          } else if (res.data.authentications !== undefined && res.data.authentications.length > 0) {
+            vm.saveToken(res.data.authentications[0].token);
+          }
+        }
       });
     }
     function signOut() {
@@ -34,6 +46,12 @@
     function getToken(googleUser) {
       var googleToken = googleUser.getAuthResponse().id_token;
       return googleToken;
+    }
+    function saveToken(token){
+      $window.localStorage[tokenStorageKey] = token;
+    }
+    function removeToken() {
+      $window.localStorage.removeItem(tokenStorageKey);
     }
   }
 }());
