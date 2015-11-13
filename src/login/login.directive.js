@@ -16,15 +16,15 @@
       };
     });
 
-  LoginController.$inject = ['loginService'];
+  LoginController.$inject = ['raCoreService'];
   /* @ngInject */
-  function LoginController(service) {
+  function LoginController(raCoreService) {
     var vm = this;
     vm.login = login;
     vm.changeValidation = changeValidation;
     vm.emptyErrors = emptyErrors;
     vm.validationShow = false;
-    vm.isAuthed = isAuthed;
+    vm.isAuthenticated = isAuthenticated;
     vm.logout = logout;
 
     function changeValidation() {
@@ -32,8 +32,8 @@
     }
 
     function login() {
-      service.login(vm.email, vm.password, function() {
-        vm.successCallback();
+      raCoreService.loginWithEmail(vm.email, vm.password, function(data) {
+        vm.successCallback(data);
       }, function(response) {
         console.log("Login response:", response.data.error.validation_errors);
         if (response.data.error.validation_errors.username !== null){
@@ -43,20 +43,19 @@
           vm.PasswordValidation = response.data.error.validation_errors.password[0];
         }
         if (response.data.error.validation_errors.resource_owner !== null){
-          vm.UsernameValidation = 'We don\'t have a user with that email...';
+          vm.UsernameValidation = 'Invalid email or password';
         }
         vm.failureCallback();
       });
     }
 
     function logout() {
-      service.logout();
+      raCoreService.logout();
     }
 
-    function isAuthed() {
-      return service.isAuthed ? service.isAuthed() : false;
+    function isAuthenticated() {
+      return raCoreService.isAuthenticated();
     }
-
 
     function emptyErrors() {
       vm.passwordValidation = null;

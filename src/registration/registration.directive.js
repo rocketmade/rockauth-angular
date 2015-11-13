@@ -15,9 +15,9 @@
       };
     });
 
-  RegistrationController.$inject = ['registrationService'];
+  RegistrationController.$inject = ['raCoreService'];
   /* @ngInject */
-  function RegistrationController(service) {
+  function RegistrationController(raCoreService) {
     var vm = this;
     vm.register = register;
     vm.changeValidation = changeValidation;
@@ -29,7 +29,7 @@
     }
 
     function register() {
-      service.register(vm.firstName, vm.lastName, vm.email, vm.password, function(user) {
+      raCoreService.registerWithEmail(vm.firstName, vm.lastName, vm.email, vm.password, function(user) {
         vm.successCallback()(user);
       }, function(response) {
         console.log(response.data.error.validation_errors.email);

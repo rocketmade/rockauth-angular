@@ -17,24 +17,25 @@
     };
   }
 
-  GoogleAuthController.$inject = ['$window', 'raGoogleService'];
+  GoogleAuthController.$inject = ['$window', 'raCoreService'];
 
-  function GoogleAuthController($window, googleService) {
+  function GoogleAuthController($window, raCoreService) {
     var vm = this;
 
     $window.rockauthGoogleOnSignIn = onSignIn;
     vm.signOut = signOut;
-    vm.showSignInButton = true;
 
     function onSignIn(googleUser) {
-      if (googleUser) {
-        googleService.register(googleUser);
-        vm.showSignInButton = false;
-      }
+      var token = googleUser.getAuthResponse().id_token;
+      raCoreService.loginWithProvider('google_plus', token, null, vm.successCallback, null);
     }
+
     function signOut() {
-      googleService.signOut();
-      vm.showSignInButton = true;
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.signOut().then(function() {
+        console.log('User signed out of google');
+      });
+      raCoreService.logout();
     }
   }
 }());
