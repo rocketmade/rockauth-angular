@@ -17,13 +17,15 @@
     };
   }
 
-  GoogleAuthController.$inject = ['$window', 'raCoreService'];
+  GoogleAuthController.$inject = ['$window', 'raCoreService', 'GoogleAppId'];
 
-  function GoogleAuthController($window, raCoreService) {
+  function GoogleAuthController($window, raCoreService, googleAppId) {
     var vm = this;
 
     $window.rockauthGoogleOnSignIn = onSignIn;
     vm.signOut = signOut;
+
+    addGoogleAppIdMetaTag();
 
     function onSignIn(googleUser) {
       var token = googleUser.getAuthResponse().id_token;
@@ -36,6 +38,14 @@
         console.log('User signed out of google');
       });
       raCoreService.logout();
+    }
+
+    function addGoogleAppIdMetaTag() {
+      var meta = document.createElement('meta');
+      meta.httpEquiv = 'X-UA-Compatible';
+      meta.name = 'google-signin-client_id';
+      meta.content = googleAppId;
+      document.getElementsByTagName('head')[0].appendChild(meta);
     }
   }
 }());

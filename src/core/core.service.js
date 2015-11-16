@@ -106,15 +106,13 @@
     }
 
     function extractToken(response) {
-      // if (response.config.url.indexOf(BaseAPI) === 0) {
-        if (response.data.authentication !== undefined) {
-          return response.data.authentication.token;
-        } else if (response.data.authentications !== undefined && response.data.authentications.length > 0) {
-          return response.data.authentications[0].token;
-        } else {
-          return null;
-        }
-      // }
+      if (response.data.authentication !== undefined) {
+        return response.data.authentication.token;
+      } else if (response.data.authentications !== undefined && response.data.authentications.length > 0) {
+        return response.data.authentications[0].token;
+      } else {
+        return null;
+      }
     }
   }
 })();
