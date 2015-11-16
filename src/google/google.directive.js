@@ -17,24 +17,35 @@
     };
   }
 
-  GoogleAuthController.$inject = ['$window', 'raGoogleService'];
+  GoogleAuthController.$inject = ['$window', 'raCoreService', 'GoogleAppId'];
 
-  function GoogleAuthController($window, googleService) {
+  function GoogleAuthController($window, raCoreService, googleAppId) {
     var vm = this;
 
     $window.rockauthGoogleOnSignIn = onSignIn;
     vm.signOut = signOut;
-    vm.showSignInButton = true;
+
+    addGoogleAppIdMetaTag();
 
     function onSignIn(googleUser) {
-      if (googleUser) {
-        googleService.register(googleUser);
-        vm.showSignInButton = false;
-      }
+      var token = googleUser.getAuthResponse().id_token;
+      raCoreService.loginWithProvider('google_plus', token, null, vm.successCallback, null);
     }
+
     function signOut() {
-      googleService.signOut();
-      vm.showSignInButton = true;
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.signOut().then(function() {
+        console.log('User signed out of google');
+      });
+      raCoreService.logout();
+    }
+
+    function addGoogleAppIdMetaTag() {
+      var meta = document.createElement('meta');
+      meta.httpEquiv = 'X-UA-Compatible';
+      meta.name = 'google-signin-client_id';
+      meta.content = googleAppId;
+      document.getElementsByTagName('head')[0].appendChild(meta);
     }
   }
 }());
