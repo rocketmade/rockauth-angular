@@ -13,11 +13,11 @@
           successCallback: '&'
         }
       };
-    })
+    });
 
-  RegistrationController.$inject = ['registrationService'];
+  RegistrationController.$inject = ['raCoreService'];
   /* @ngInject */
-  function RegistrationController(service) {
+  function RegistrationController(raCoreService) {
     var vm = this;
     vm.register = register;
     vm.changeValidation = changeValidation;
@@ -26,26 +26,33 @@
 
     function changeValidation() {
       vm.validationShow = true;
-    };
+    }
 
     function register() {
-      service.register(vm.email, vm.password, function(user) {
-        alert("SUCCESS!");
+      raCoreService.registerWithEmail(vm.firstName, vm.lastName, vm.email, vm.password, function(user) {
+        vm.successCallback()(user);
       }, function(response) {
         console.log(response.data.error.validation_errors.email);
-        if (response.data.error.validation_errors.email != null){
+        if (response.data.error.validation_errors.email !== null){
           vm.emailValidation = response.data.error.validation_errors.email[0];
         }
-        if (response.data.error.validation_errors.password != null){
+        if (response.data.error.validation_errors.password !== null){
           vm.passwordValidation = response.data.error.validation_errors.password[0];
+        }
+        if (response.data.error.validation_errors.first_name !== null) {
+          vm.firstNameValidation = response.data.error.validation_errors.first_name[0];
+        }
+        if (response.data.error.validation_errors.last_name !== null) {
+          vm.lastNameValidation = response.data.error.validation_errors.last_name[0];
         }
       });
     }
 
     function emptyErrors() {
       vm.passwordValidation = null;
-      vm.usernameValidation  = null;
       vm.emailValidation = null;
+      vm.firstNameValidation = null;
+      vm.lastNameValidation = null;
     }
   }
 })();
