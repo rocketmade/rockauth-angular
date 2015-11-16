@@ -54,13 +54,13 @@
       };
     })
 
-  FacebookController.$inject = ['facebookService', '$window', '$attrs']
+  FacebookController.$inject = ['facebookService', '$window', 'FacebookAppId']
 
-  function FacebookController(service, $window, $attrs){
+  function FacebookController(service, $window, FacebookAppId){
     var vm = this;
     vm.login = login;
     vm.logout = logout;
-    vm.authed = false;
+    vm.authed = service.isAuthed();
 
     (function(d){
     // load the Facebook javascript SDK
@@ -83,18 +83,24 @@
   }(document));
     $window.fbAsyncInit = function() {
       FB.init({
-        appId: $attrs.appId,
+        appId: FacebookAppId,
         status: true,
         cookie: true,
         xfbml: true,
         version: 'v2.4'
-      })
+      });
+    }
+
+    function successCallback(response){
+      service.saveToken(response.data.authentication.token)
+    }
+
+    function failureCallback(response){
+      console.log("couldn't authenticate")
     }
 
     function successfulLogin(response){
-      vm.authed = true
-      console.log(response.authResponse.accessToken);
-      service.login(response.authResponse.accessToken);
+      service.login(response.authResponse.accessToken, successCallback, failureCallback);
     }
 
     function login(){
@@ -104,14 +110,13 @@
         } else {
           FB.login(function(response){
             successfulLogin(response);
-          })
-        }
-      })
+          });
+        };
+      });
     }
 
     function logout(){
-      FB.logout();
-      vm.authed = false;
+      service.logout();
     }
   }
 })();
@@ -122,22 +127,64 @@
     .module('rockauth.facebook')
     .service('facebookService', facebookService);
 
-  function facebookService($http, BaseAPI, ClientId, ClientSecret){
+  function facebookService($http, $window, BaseAPI, ClientId, ClientSecret){
     var vm = this;
+    vm.saveToken = saveToken;
+    vm.getToken = getToken;
+    vm.parseJWT = parseJWT;
+    vm.isAuthed = isAuthed;
     vm.login = login;
+    vm.logout = logout;
+
+    function saveToken(token) {
+      console.log("Saved token: " + token);
+      $window.localStorage['JWT'] = token;
+    }
+
+    function getToken() {
+      return $window.localStorage['JWT'] = token;
+    }
+
+    function parseJWT(token) {
+      var base64Url = token.split('.')[1];
+      var base64 = base64Url.replace('-', '+').replace('_', '/');
+      return JSON.parse($window.atob(base64));
+    }
+
+    function isAuthed() {
+      var token = $window.localStorage['JWT'];
+      if (token) {
+        var params = vm.parseJWT(token);
+        return Math.round(new Date().getTime() / 1000) <= params.exp;
+      } else {
+        return false;
+      }
+    }
 
     function login(ProviderAccessToken, success, failure) {
       return $http.post(BaseAPI + '/authentications.json', {
-        authentications: {
+        authentication: {
           auth_type: 'assertion',
           client_id: ClientId,
           client_secret: ClientSecret,
           provider_authentication: {
             provider: 'facebook',
-            provider_access_token: ProviderAccessToken
+            provider_access_token: ProviderAccessToken,
           }
         }
       }).then(success, failure);
+    }
+
+    function logout(success, failure){
+      return $http({
+        method: 'DELETE',
+        url: BaseAPI + '/authentications.json',
+        headers: {
+          'Authorization': 'Bearer ' + $window.localStorage['JWT']
+        }
+      }).then(success, failure);
+      console.log("Removing token: " + vm.getToken());
+      $window.localStorage.removeItem('JWT');
     }
   }
 })();
