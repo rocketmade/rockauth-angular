@@ -4,5 +4,5 @@
   angular
     .module('rockauth.facebook', [
       'rockauth.core'
-    ])
+    ]);
 })();

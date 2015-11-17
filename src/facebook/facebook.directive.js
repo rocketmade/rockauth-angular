@@ -13,15 +13,14 @@
           successCallback: '&',
         }
       };
-    })
+    });
 
-  FacebookController.$inject = ['facebookService', '$window', 'FacebookAppId']
+  FacebookController.$inject = ['raCoreService', '$window', 'FacebookAppId'];
 
   function FacebookController(service, $window, FacebookAppId){
     var vm = this;
     vm.login = login;
     vm.logout = logout;
-    vm.authed = authed;
 
     (function(d){
     // load the Facebook javascript SDK
@@ -50,18 +49,10 @@
         xfbml: true,
         version: 'v2.4'
       });
-    }
-
-    function successCallback(response){
-      service.saveToken(response.data.authentication.token)
-    }
-
-    function failureCallback(response){
-      console.log("couldn't authenticate")
-    }
+    };
 
     function successfulLogin(response){
-      service.login(response.authResponse.accessToken, successCallback, failureCallback);
+      service.loginWithProvider('facebook', response.authResponse.accessToken, null, vm.successCallback, null);
     }
 
     function login(){
@@ -72,16 +63,12 @@
           FB.login(function(response){
             successfulLogin(response);
           });
-        };
+        }
       });
     }
 
     function logout(){
       service.logout();
-    }
-
-    function authed() {
-      return service.isAuthed() ? service.isAuthed() : false;
     }
   }
 })();
