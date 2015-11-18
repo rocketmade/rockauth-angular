@@ -1,0 +1,8 @@
+<!-- Google dependency needs to be moved to Socialmade for production>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<meta name="google-signin-client_id" content="643719502428-nnsjfjth8rv7doqvpjofjvlmuujur1vh.apps.googleusercontent.com/" -->
+<div ng-app="rockauth.google">
+  <div class="g-signin2" data-onsuccess="rockauthGoogleOnSignIn"></div>
+  <md-button class="md-raised" ng-click="vm.signOut()">Sign Out</md-button>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+</div>
