@@ -24,6 +24,13 @@ describe('LoginService', function() {
 		expect(localStorage.getItem('rockauth.jwtToken')).toEqual(token);
 	}));
 
+	it('should get token from local storage', inject(function(loginService) {
+		var token = 'testt0k3n!';
+		localStorage.setItem('rockauth.jwtToken', token);
+		var getMockToken = loginService.getToken();
+		expect(localStorage.getItem('rockauth.jwtToken')).toEqual(token);
+	}));
+
 	it('should remove token from local storage', inject(function(loginService){
 		var token = 'testt0k3n!';
 		localStorage.setItem('rockauth.jwtToken', token);
@@ -51,10 +58,10 @@ describe('LoginService', function() {
 	}));
 
 	it('should save token on login', inject(function(loginService, $injector) {
+		spyOn(loginService, 'saveToken');
 		var $httpBackend = $injector.get('$httpBackend');
 		$httpBackend.when('POST', 'localhost:3000/api/authentications.json').respond(mockLoginResponse);
 		loginService.login().then(function(res) {
-			expect(res.data.authentication.token).toBeDefined() || expect(res.data.authentications[0].token).toBeDefined();
 			expect(loginService.saveToken).toHaveBeenCalled();
 		});
 	}));
