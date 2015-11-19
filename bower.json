@@ -25,6 +25,17 @@
   ],
   "dependencies": {
     "angular-messages": "~1.4.7",
-    "angular-material": "~0.11.4"
+    "angular-material": "~0.11.4",
+    "sinon-chai": "~2.8.0",
+    "sinon": "http://sinonjs.org/releases/sinon-1.15.0.js",
+    "chai": "~3.4.2"
+  },
+  "devDependencies": {
+    "bardjs": "~0.1.8",
+    "chai": "~3.4.2",
+    "sinon": "~1.17.2",
+    "sinon-chai": "~2.8.0",
+    "angular-mocks": "~1.4.7",
+    "karma": "~0.4.6"
   }
 }
