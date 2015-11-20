@@ -226,7 +226,7 @@
       bindToController: true,
       controller: GoogleAuthController,
       controllerAs: 'vm',
-      templateUrl: 'bower_components/rockauth-angular/src/google/google.html',
+      template: templateHTML,
       scope: {
         successCallback: '&'
       }
@@ -264,6 +264,13 @@
       document.getElementsByTagName('head')[0].appendChild(meta);
     }
   }
+
+  templateHTML =
+  '<div ng-app="rockauth.google">' +
+  '<div class="g-signin2" data-onsuccess="rockauthGoogleOnSignIn"></div>' +
+  '<md-button class="md-raised" ng-click="vm.signOut()">Sign Out</md-button>' +
+  '<script src="https://apis.google.com/js/platform.js" async defer></script>' +
+  '</div>';
 }());
 
 (function() {
@@ -276,7 +283,7 @@
         bindToController: true,
         controller: LoginController,
         controllerAs: 'vm',
-        templateUrl: 'bower_components/rockauth-angular/src/login/login.html',
+        template: templateHTML,
         scope: {
           successCallback: '&',
           failureCallback: '&'
@@ -331,6 +338,31 @@
       vm.emailValidation = null;
     }
   }
+
+  templateHTML = 
+  '<div ng-app="rockauth.login">' +
+  '<form layout="column" ng-cloak class="md-inline-form" name="userForm" ng-hide="vm.isAuthenticated()" novalidate ng-submit="loginform.$valid">' +
+    '<md-input-container>' +
+      '<label>Email</label>' +
+      '<input type="email" ng-model="vm.email" name="email" required> {{vm.UsernameValidation}}{{vm.emailValidation}}<br>' +
+      '<div ng-messages="userForm.email.$error">' +
+        '<div ng-message="required">This is required.</div>' +
+        '<div ng-message="email">Enter a valid email.</div>' +
+      '</div>' +
+    '</md-input-container>' +
+    '<md-input-container>' +
+      '<label>Password</label>' +
+      '<input type="password" ng-model="vm.password" name="password" ng-minlength="8" ng-maxlength="30" required> {{vm.passwordValidation}}<br>' +
+      '<div ng-messages="userForm.password.$error">' +
+        '<div ng-message="required">This is required.</div>' +
+        '<div ng-message="minlength">Your password must be between 8 and 30 characters</div>' +
+        '<div ng-message="maxlength">Your password must be between 8 and 30 characters</div>' +
+      '</div>' +
+    '</md-input-container>' +
+    '<md-button class="md-raised md-primary" ng-click="vm.changeValidation(); userForm.$valid && vm.login(); vm.emptyErrors()" ng-hide="vm.isAuthenticated()">Login</md-button>' +
+  '</form>' +
+  '<md-button ng-click="vm.logout()" class="md-raised md-primary" ng-show="vm.isAuthenticated()">Logout</md-button>' +
+  '</div>';
 })();
 
 (function() {
@@ -343,7 +375,7 @@
         bindToController: true,
         controller: RegistrationController,
         controllerAs: 'vm',
-        templateUrl: 'bower_components/rockauth-angular/src/registration/registration.html',
+        template: templateHTML,
         scope: {
           successCallback: '&'
         }
@@ -390,4 +422,44 @@
       vm.lastNameValidation = null;
     }
   }
+
+  templateHTML =
+  '<div ng-app="rockauth.registration">' +
+  '<form name="userForm" class="md-inline-form" ng-hide="vm.isAuthenticated()" novalidate ng-submit="loginform.$valid">' +
+    '<md-input-container>' +
+      '<label>First Name</label>' +
+      '<input type="name" ng-model="vm.firstName" name="firstName" required>{{ vm.firstNameValidation }}' +
+      '<div ng-messages="userForm.firstName.$error" ng-show="vm.validationShow">' +
+        '<div ng-message="required">This is required.</div>' +
+      '</div>' +
+    '</md-input-container>' +
+    '<md-input-container>' +
+      '<label>Last Name</label>' +
+      '<input type="name" ng-model="vm.lastName" name="lastName" required>{{ vm.lastNameValidation }}' +
+      '<div ng-messages="userForm.lastName.$error" ng-show="vm.validationShow">' +
+        '<div ng-message="required">This is required.</div>' +
+      '</div>' +
+    '</md-input-container>' +
+    '<md-input-container>' +
+      '<label>Email</label>' +
+      '<input type="email" ng-model="vm.email" name="email" required>{{ vm.emailValidation }}' +
+      '<div ng-messages="userForm.email.$error" ng-show="vm.validationShow">' +
+        '<div ng-message="required">This is required.</div>' +
+        '<div ng-message="email">Please enter a valid email address.</div>' +
+      '</div>' +
+    '</md-input-container>' +
+    '<md-input-container>' +
+      '<label>Password</label>' +
+      '<input type="password" ng-model="vm.password" name="password" ng-minlength="8" required>{{ vm.passwordValidation }}' +
+      '<div ng-messages="userForm.password.$error" ng-show="vm.validationShow">' +
+        '<div ng-message="required">This is required.</div>' +
+        '<div ng-message="minlength">Password needs to be at least 8 characters.</div>' +
+      '</div>' +
+    '</md-input-container>' +
+    '<br/>' +
+    '<md-button class="md-raised md-primary" ng-click="vm.changeValidation(); userForm.$valid && vm.register(); vm.emptyErrors(); vm.clearInputs();">Register</md-button>' +
+  '</form>' +
+    '<md-button class="md-raised md-primary" ng-click="vm.logout()" ng-show="vm.isAuthenticated()">Logout</md-button>' +
+  '</div>';
+
 })();
