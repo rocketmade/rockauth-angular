@@ -21,46 +21,20 @@
     var vm = this;
     vm.login = login;
     vm.logout = logout;
+    $window.fbAsyncInit = fbInit;
 
-    (function(d){
-    // load the Facebook javascript SDK
+    addFacebookSDK();
 
-    var js, 
-    id = 'facebook-jssdk', 
-    ref = d.getElementsByTagName('script')[0];
-
-    if (d.getElementById(id)) {
-      return;
-    }
-
-    js = d.createElement('script'); 
-    js.id = id; 
-    js.async = true;
-    js.src = "//connect.facebook.net/en_US/all.js";
-
-    ref.parentNode.insertBefore(js, ref);
-
-  }(document));
-    $window.fbAsyncInit = function() {
-      FB.init({
-        appId: FacebookAppId,
-        status: true,
-        cookie: true,
-        xfbml: true,
-        version: 'v2.4'
-      });
-    };
-
-    function successfulLogin(response){
+    function successfulLogin(response) {
       service.loginWithProvider('facebook', response.authResponse.accessToken, null, vm.successCallback, null);
     }
 
     function login(){
-      FB.getLoginStatus(function(response) {
+      $window.FB.getLoginStatus(function(response) {
         if (response.authResponse) {
           successfulLogin(response);
         } else {
-          FB.login(function(response){
+          $window.FB.login(function(response){
             successfulLogin(response);
           });
         }
@@ -69,6 +43,32 @@
 
     function logout(){
       service.logout();
+    }
+
+    function addFacebookSDK() {
+      var id = 'facebook-jssdk';
+      var ref = document.getElementsByTagName('script')[0];
+
+      if (document.getElementById(id)) {
+        return;
+      }
+
+      var js = document.createElement('script');
+      js.id = id;
+      js.async = true;
+      js.src = "//connect.facebook.net/en_US/all.js";
+
+      ref.parentNode.insertBefore(js, ref);
+    }
+
+    function fbInit() {
+      $window.FB.init({
+        appId: FacebookAppId,
+        status: true,
+        cookie: true,
+        xfbml: true,
+        version: 'v2.4'
+      });
     }
   }
 })();
