@@ -49,10 +49,10 @@
     }
   }
 
-  templateHTML = 
-  '<div ng-app="rockauth.google">'
-  + '<div class="g-signin2" data-onsuccess="rockauthGoogleOnSignIn"></div>'
-  + '<md-button class="md-raised" ng-click="vm.signOut()">Sign Out</md-button>'
-  + '<script src="https://apis.google.com/js/platform.js" async defer></script>'
-  + '</div>'
+  templateHTML =
+  '<div ng-app="rockauth.google">' +
+  '<div class="g-signin2" data-onsuccess="rockauthGoogleOnSignIn"></div>' +
+  '<md-button class="md-raised" ng-click="vm.signOut()">Sign Out</md-button>' +
+  '<script src="https://apis.google.com/js/platform.js" async defer></script>' +
+  '</div>';
 }());

@@ -57,42 +57,42 @@
   }
 
   templateHTML =
-  '<div ng-app="rockauth.registration">'
-  + '<form name="userForm" class="md-inline-form" ng-hide="vm.isAuthenticated()" novalidate ng-submit="loginform.$valid">'
-    + '<md-input-container>'
-      + '<label>First Name</label>'
-      + '<input type="name" ng-model="vm.firstName" name="firstName" required>{{ vm.firstNameValidation }}'
-      + '<div ng-messages="userForm.firstName.$error" ng-show="vm.validationShow">'
-        + '<div ng-message="required">This is required.</div>'
-      + '</div>'
-    + '</md-input-container>'
-    + '<md-input-container>'
-      + '<label>Last Name</label>'
-      + '<input type="name" ng-model="vm.lastName" name="lastName" required>{{ vm.lastNameValidation }}'
-      + '<div ng-messages="userForm.lastName.$error" ng-show="vm.validationShow">'
-        + '<div ng-message="required">This is required.</div>'
-      + '</div>'
-    + '</md-input-container>'
-    + '<md-input-container>'
-      + '<label>Email</label>'
-      + '<input type="email" ng-model="vm.email" name="email" required>{{ vm.emailValidation }}'
-      + '<div ng-messages="userForm.email.$error" ng-show="vm.validationShow">'
-        + '<div ng-message="required">This is required.</div>'
-        + '<div ng-message="email">Please enter a valid email address.</div>'
-      + '</div>'
-    + '</md-input-container>'
-    + '<md-input-container>'
-      + '<label>Password</label>'
-      + '<input type="password" ng-model="vm.password" name="password" ng-minlength="8" required>{{ vm.passwordValidation }}'
-      + '<div ng-messages="userForm.password.$error" ng-show="vm.validationShow">'
-        + '<div ng-message="required">This is required.</div>'
-        + '<div ng-message="minlength">Password needs to be at least 8 characters.</div>'
-      + '</div>'
-    + '</md-input-container>'
-    + '<br/>'
-    + '<md-button class="md-raised md-primary" ng-click="vm.changeValidation(); userForm.$valid && vm.register(); vm.emptyErrors(); vm.clearInputs();">Register</md-button>'
-  + '</form>'
-    + '<md-button class="md-raised md-primary" ng-click="vm.logout()" ng-show="vm.isAuthenticated()">Logout</md-button>'
-  + '</div>';
+  '<div ng-app="rockauth.registration">' +
+  '<form name="userForm" class="md-inline-form" ng-hide="vm.isAuthenticated()" novalidate ng-submit="loginform.$valid">' +
+    '<md-input-container>' +
+      '<label>First Name</label>' +
+      '<input type="name" ng-model="vm.firstName" name="firstName" required>{{ vm.firstNameValidation }}' +
+      '<div ng-messages="userForm.firstName.$error" ng-show="vm.validationShow">' +
+        '<div ng-message="required">This is required.</div>' +
+      '</div>' +
+    '</md-input-container>' +
+    '<md-input-container>' +
+      '<label>Last Name</label>' +
+      '<input type="name" ng-model="vm.lastName" name="lastName" required>{{ vm.lastNameValidation }}' +
+      '<div ng-messages="userForm.lastName.$error" ng-show="vm.validationShow">' +
+        '<div ng-message="required">This is required.</div>' +
+      '</div>' +
+    '</md-input-container>' +
+    '<md-input-container>' +
+      '<label>Email</label>' +
+      '<input type="email" ng-model="vm.email" name="email" required>{{ vm.emailValidation }}' +
+      '<div ng-messages="userForm.email.$error" ng-show="vm.validationShow">' +
+        '<div ng-message="required">This is required.</div>' +
+        '<div ng-message="email">Please enter a valid email address.</div>' +
+      '</div>' +
+    '</md-input-container>' +
+    '<md-input-container>' +
+      '<label>Password</label>' +
+      '<input type="password" ng-model="vm.password" name="password" ng-minlength="8" required>{{ vm.passwordValidation }}' +
+      '<div ng-messages="userForm.password.$error" ng-show="vm.validationShow">' +
+        '<div ng-message="required">This is required.</div>' +
+        '<div ng-message="minlength">Password needs to be at least 8 characters.</div>' +
+      '</div>' +
+    '</md-input-container>' +
+    '<br/>' +
+    '<md-button class="md-raised md-primary" ng-click="vm.changeValidation(); userForm.$valid && vm.register(); vm.emptyErrors(); vm.clearInputs();">Register</md-button>' +
+  '</form>' +
+    '<md-button class="md-raised md-primary" ng-click="vm.logout()" ng-show="vm.isAuthenticated()">Logout</md-button>' +
+  '</div>';
 
 })();
