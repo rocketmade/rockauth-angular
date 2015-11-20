@@ -56,11 +56,11 @@
           auth_type: 'assertion',
           client_id: ClientId,
           client_secret: ClientSecret,
-          provider_authentication: [{
+          provider_authentication: {
             provider: providerName,
             provider_access_token: token,
             provider_access_token_secret: secret
-          }]
+          }
         }
       }).then(function(response) {
         handleSuccessfulAuthResponse('Successfully registered provider:' + providerName, response, success);
