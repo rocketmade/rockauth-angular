@@ -64,7 +64,7 @@
     }
   }
 
-  templateHTML = 
+  var templateHTML = 
   '<div ng-app="rockauth.login">'
   + '<form layout="column" ng-cloak class="md-inline-form" name="userForm" ng-hide="vm.isAuthenticated()" novalidate ng-submit="loginform.$valid">'
     + '<md-input-container>'

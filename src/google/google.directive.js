@@ -49,7 +49,7 @@
     }
   }
 
-  templateHTML = 
+  var templateHTML = 
   '<div ng-app="rockauth.google">'
   + '<div class="g-signin2" data-onsuccess="rockauthGoogleOnSignIn"></div>'
   + '<md-button class="md-raised" ng-click="vm.signOut()">Sign Out</md-button>'
