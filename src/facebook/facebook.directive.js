@@ -8,7 +8,7 @@
         bindToController: true,
         controller: FacebookController,
         controllerAs: 'vm',
-        templateUrl: template,
+        template: templateHTML,
         scope: {
           successCallback: '&',
         }
