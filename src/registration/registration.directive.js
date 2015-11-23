@@ -56,7 +56,7 @@
     }
   }
 
-  templateHTML =
+  var templateHTML =
   '<div ng-app="rockauth.registration">' +
   '<form name="userForm" class="md-inline-form" ng-hide="vm.isAuthenticated()" novalidate ng-submit="loginform.$valid">' +
     '<md-input-container>' +
@@ -93,6 +93,6 @@
     '<md-button class="md-raised md-primary" ng-click="vm.changeValidation(); userForm.$valid && vm.register(); vm.emptyErrors(); vm.clearInputs();">Register</md-button>' +
   '</form>' +
     '<md-button class="md-raised md-primary" ng-click="vm.logout()" ng-show="vm.isAuthenticated()">Logout</md-button>' +
-  '</div>';
+  '</div>'; 
 
 })();
