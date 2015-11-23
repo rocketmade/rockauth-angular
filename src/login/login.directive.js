@@ -87,6 +87,6 @@
     '<md-button class="md-raised md-primary" ng-click="vm.changeValidation(); userForm.$valid && vm.login(); vm.emptyErrors()" ng-hide="vm.isAuthenticated()">Login</md-button>' +
   '</form>' +
   '<md-button ng-click="vm.logout()" class="md-raised md-primary" ng-show="vm.isAuthenticated()">Logout</md-button>' +
-  '</div>'
+  '</div>';
 
 })();

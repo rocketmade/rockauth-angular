@@ -73,5 +73,5 @@
   }
   var templateHTML =
   '<button ng-hide="vm.authed" ng-click="vm.login()">Facebook</button>' +
-  '<button ng-show="vm.authed" ng-click="vm.logout()">Logout</button>'
+  '<button ng-show="vm.authed" ng-click="vm.logout()">Logout</button>';
 })();
