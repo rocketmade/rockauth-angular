@@ -16,6 +16,8 @@
 
     function isAuthenticated() {
       var token = getToken();
+      var bool = token !== null && !isTokenExpired(token);
+      console.log("coming from tokenManager: " + bool);
       return token !== null && !isTokenExpired(token);
     }
 
@@ -32,10 +34,14 @@
     }
 
     function isTokenExpired(token) {
-      var base64Url = token.split('.')[1];
-      var base64 = base64Url.replace('-', '+').replace('_', '/');
-      var params = JSON.parse($window.atob(base64));
-      return Math.round(new Date().getTime()/1000) >= params.exp;
+      if (token) {
+        var base64Url = token.split('.')[1];
+        var base64 = base64Url.replace('-', '+').replace('_', '/');
+        var params = JSON.parse($window.atob(base64));
+        return Math.round(new Date().getTime()/1000) >= params.exp;  
+      } else {
+        return true;
+      }
     }
   }
 })();
