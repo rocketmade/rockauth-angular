@@ -16,8 +16,6 @@
 
     function isAuthenticated() {
       var token = getToken();
-      var bool = token !== null && !isTokenExpired(token);
-      console.log("coming from tokenManager: " + bool);
       return token !== null && !isTokenExpired(token);
     }
 
