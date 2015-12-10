@@ -8,7 +8,7 @@
         bindToController: true,
         controller: FacebookController,
         controllerAs: 'vm',
-        templateUrl: 'bower_components/rockauth-angular/src/facebook/facebook.html',
+        template: templateHTML,
         scope: {
           successCallback: '&',
         }
@@ -71,4 +71,7 @@
       });
     }
   }
+  var templateHTML =
+  '<button ng-hide="vm.authed" ng-click="vm.login()">Facebook</button>' +
+  '<button ng-show="vm.authed" ng-click="vm.logout()">Logout</button>';
 })();

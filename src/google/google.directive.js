@@ -10,7 +10,7 @@
       bindToController: true,
       controller: GoogleAuthController,
       controllerAs: 'vm',
-      templateUrl: 'bower_components/rockauth-angular/src/google/google.html',
+      template: templateHTML,
       scope: {
         successCallback: '&'
       }
@@ -48,4 +48,11 @@
       document.getElementsByTagName('head')[0].appendChild(meta);
     }
   }
+
+  var templateHTML = 
+  '<div ng-app="rockauth.google">' +
+  '<div class="g-signin2" data-onsuccess="rockauthGoogleOnSignIn"></div>' +
+  '<md-button class="md-raised" ng-click="vm.signOut()">Sign Out</md-button>' +
+  '<script src="https://apis.google.com/js/platform.js" async defer></script>' +
+  '</div>';
 }());
