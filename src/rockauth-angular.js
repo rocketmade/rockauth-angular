@@ -8,6 +8,7 @@
       'rockauth.facebook',
       'rockauth.google',
       'rockauth.login',
+      'rockauth.logout',
       'ngMessages',
       'ngMaterial'
     ]);
