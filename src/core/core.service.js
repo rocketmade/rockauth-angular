@@ -80,6 +80,26 @@
 
     function logout() {
       // TODO: figure out the best way to logout of rockauth and social providers
+
+      // Logout of Rockauth
+      var token = raTokenManager.getToken();
+      $http({
+        method: 'DELETE',
+        url: BaseAPI + '/authentications.json',
+        headers: {
+          'Authorization': 'Bearer ' + token
+        }
+      });
+
+      // Logout of Facebook
+      FB.api('/me/permissions', 'delete', function(response) {
+        console.log(response); // true for successful logout.
+      });
+
+      // Logout of Google
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.signOut();
+
       raTokenManager.setToken(null);
     }
 

@@ -25,15 +25,6 @@
 
     function logout() {
       service.logout();
-
-      // Logout of Facebook
-      FB.api('/me/permissions', 'delete', function(response) {
-        console.log(response); // true for successful logout.
-      });
-
-      // Logout of Google
-      var auth2 = gapi.auth2.getAuthInstance();
-      auth2.signOut();  
     }
   }
 
