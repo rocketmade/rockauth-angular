@@ -91,6 +91,11 @@
         }
       });
 
+      var wnd = window.open("http://instagram.com/accounts/logout",'_blank', 'width=10, height=10, visible=none', ''); 
+      setTimeout(function() {
+        wnd.close();
+      }, 500);
+
       // Logout of Facebook
       FB.api('/me/permissions', 'delete', function(response) {
         console.log(response); // true for successful logout.
