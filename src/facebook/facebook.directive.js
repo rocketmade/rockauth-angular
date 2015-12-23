@@ -25,20 +25,28 @@
 
     addFacebookSDK();
 
-    function successfulLogin(response) {
-      service.loginWithProvider('facebook', response.authResponse.accessToken, null, vm.successCallback, null);
-    }
+    // function successfulLogin(response) {
+    //   service.loginWithProvider('facebook', response.authResponse.accessToken, null, vm.successCallback, null);
+    // }
 
     function login(){
-      $window.FB.getLoginStatus(function(response) {
+      $window.FB.login(function(response) {
         if (response.authResponse) {
-          successfulLogin(response);
+          service.loginWithProvider('facebook', response.authResponse.accessToken, null, vm.successCallback, null);          
         } else {
-          $window.FB.login(function(response){
-            successfulLogin(response);
-          });
+          console.log("Facebook couldn't authenticate you.");
         }
       });
+
+      // $window.FB.getLoginStatus(function(response) {
+      //   if (response.authResponse) {
+      //     successfulLogin(response);
+      //   } else {
+      //     $window.FB.login(function(response){
+      //       successfulLogin(response);
+      //     });
+      //   }
+      // });
     }
 
     function logout(){
