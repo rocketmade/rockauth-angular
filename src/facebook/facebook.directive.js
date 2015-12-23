@@ -30,14 +30,13 @@
     // }
 
     function login(){
-      var oldToken = $window.FB.getAccessToken();
       $window.FB.login(function(response) {
-        if (response.authResponse && response.authResponse.accessToken !== oldToken) {
+        if (response.authResponse) {
           service.loginWithProvider('facebook', response.authResponse.accessToken, null, vm.successCallback, null);          
         } else {
           console.log("Facebook couldn't authenticate you.");
         }
-      }, {auth_type: 'reauthenticate'});
+      });
 
       // $window.FB.getLoginStatus(function(response) {
       //   if (response.authResponse) {
